@@ -1,0 +1,29 @@
+--Show the OrderDetailID of each orderdetail, together with the difference between the quantity and the minimum quantity of all orderdetails. Name the second column in the result as Q_Diff1.
+
+SELECT OrderDetailID,
+	Quantity - (SELECT Min(Quantity) FROM OrderDetails) AS Q_Diff1
+FROM OrderDetails
+
+--Show the OrderDetailID of each orderdetail, together with the difference between the quantity and the minimum quantity of orderdetails with the same OrderID. Name the second column in the result as Q_Diff2.
+
+SELECT OrderDetailID,
+	Quantity - (SELECT Min(Quantity) FROM OrderDetails T1 WHERE T1.OrderID = T2.OrderID) AS Q_Diff2
+FROM OrderDetails T2
+
+--Show the OrderDetailID and Quantity of orderdetails for which the Quantity is less than the average quantity of all orderdetails.
+
+SELECT OrderDetailID, Quantity
+FROM OrderDetails
+WHERE Quantity < (SELECT AVG(Quantity) FROM OrderDetails)
+
+--Show the OrderDetailID and Quantity of orderdetails for which the Quantity is less than the average quantity of the orderdetails with the same OrderID.
+
+SELECT OrderDetailID, Quantity
+FROM OrderDetails T1
+WHERE Quantity < (SELECT AVG(Quantity) FROM OrderDetails T2 WHERE T1.OrderID = T2.OrderID)
+
+--List the EmployeeID, LastName, and FirstName of the employee(s) who haven't handled any order yet.
+
+SELECT EmployeeID, LastName, FirstName
+FROM Employees
+WHERE EmployeeID NOT IN (SELECT DISTINCT EmployeeID FROM Orders)
