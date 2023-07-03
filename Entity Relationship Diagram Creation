@@ -9,7 +9,7 @@ CREATE TABLE BOOKINGS (
   RATE_HR INTEGER (4), 
   DATE DATE (2, 2),
   TIME TIME (2, 4),
-  DURATION INT (3)
+  DURATION INT (3) 
 
 
 --Create Table Facilities section of your database 
