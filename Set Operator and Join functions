@@ -1,0 +1,74 @@
+--Use a set operator to list all the information for the orders that satisfy either one of the conditions: a) With EmployeeID 6 and OrderDate earlier than "1997-01-01". b) Placed by one of these CustomerID: 40,42,44,46,48,50 and with ShipperID 1. For the orders that satisfy both conditions, show them only once.
+
+SELECT * 
+FROM Orders
+WHERE EmployeeID = 6 
+AND OrderDate < "1997-01-01" 
+UNION 
+SELECT * 
+FROM Orders
+WHERE CustomerID IN (40,42,44,46,48,50) 
+AND ShipperID = 1
+
+
+--Use a set operator to list all the information for the orders that satisfy both conditions given in Q1. 
+
+SELECT * 
+FROM Orders
+WHERE EmployeeID = 6 
+AND OrderDate < "1997-01-01" 
+INTERSECT  
+SELECT * 
+FROM Orders
+WHERE CustomerID IN (40,42,44,46,48,50) 
+AND ShipperID = 1
+
+
+--List the ProductName, Price of the products in order 10250, together with the Quantity of each product in that order.
+
+SELECT T1.ProductName, 
+       T1.Price, 
+       T2.Quantity 
+FROM Products T1
+JOIN OrderDetails T2 on T1.ProductID = T2.ProductID 
+WHERE OrderID = 10250
+
+--Find orders that are processed by employee with last name "Fuller". List the CustomerName, OrderID, and OrderDate for such orders.
+
+SELECT T1.OrderID, 
+       T1.OrderDate, 
+       T3.CustomerID 
+FROM Orders T1
+JOIN Employees T2 on T1.EmployeeID = T2.EmployeeID 
+JOIN Customers T3 ON T1.CustomeriD = T3.CustomerID
+WHERE LastName LIKE 'Fuller%'
+
+--Find the orders that contain products with Price less than 10 and supplied by suppliers located in Country "Japan". List the OrderID, OrderDate, and ProductName in the result. Sort the result according to the ascending order of ProductName first, and then ascending order of OrderID.
+
+SELECT T1.OrderID, 
+       T2.ProductName, 
+       T3.OrderDate 
+FROM OrderDetails T1
+JOIN Products T2 on T1.ProductID = T2.ProductID 
+JOIN Orders T3 ON T1.OrderID = T3.OrderID
+JOIN Suppliers T4 ON T2.SupplierID = T4.SupplierID
+WHERE T2.Price < 10 
+AND T4.Country = 'Japan' 
+ORDER BY T2.ProductName, T3.OrderID
+
+--Find out the (counting) number of orders for each different Country in which the firm has customers. List the Country together with the counting number. Name the second colomn as NUMOFORDERS. Filter the results by only showing the rows with counting number more than 10.
+
+SELECT T1.Country,COUNT(T2.OrderID) AS "NUMOFORDERS" 
+FROM Customers T1
+JOIN Orders T2 ON T1.CustomerID = T2.CustomerID
+GROUP BY T1.Country
+HAVING COUNT(T2.OrderID) > 10
+
+--List CustomerName of each customer in City "London", together with the ProductName and Price of the products purchased by those customers. Include those customers in "London" who have not purchased anything.
+
+SELECT T1.CustomerName, T4.ProductName, T4.Price
+FROM Customers T1 
+LEFT JOIN Orders T2 ON T1.CustomerID = T2.CustomerID
+LEFT JOIN OrderDetails T3 ON T2.OrderID = T3.OrderID 
+LEFT JOIN Products T4 ON T3.ProductID = T4.ProductID
+WHERE City = "London"
