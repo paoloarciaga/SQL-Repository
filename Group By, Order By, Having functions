@@ -1,0 +1,67 @@
+--List the CategoryName and Description of all categories. Rename the first column as "Name". Sort the result according to the ascending order of Description.
+
+SELECT CategoryName AS "Name", Description 
+FROM Categories
+ORDER BY Description
+
+--Find employee(s) whose FirstName has initial ‘A’ and LastName has initial ‘D’. List EmployeeID, FirstName, and LastName of such employee(s).
+
+SELECT EmployeeID, FirstName, LastName
+FROM Employees 
+WHERE FirstName LIKE 'A%' AND LastName LIKE 'D%'
+
+--Find all the supplier(s) whose PostalCode starts with "1" and has three more characters. List SupplierName, Address, City, and PostalCode of such supplier(s).
+
+SELECT SupplierName, Address, City, PostalCode
+FROM Suppliers 
+WHERE PostalCode LIKE '1___'
+
+--List CustomerID and OrderDate of all the orders with ShipperID 3. Sort the result first by the descending order of CustomerID, and then by the descending order or OrderDate.
+
+SELECT CustomerID, OrderDate
+FROM Orders 
+WHERE ShipperID = 3
+ORDER BY CustomerID AND OrderDate DESC
+
+--Find the product(s) for which the SupplierID is not 5, 10, 15, or 20, and Price is more than 30. List the ProductName, SupplierID, and Price of such product(s). 
+
+SELECT ProductName, SupplierID, Price
+FROM Products 
+WHERE SupplierID IS NOT "5,10,15,20"
+AND Price > 30
+
+--Find employee(s) whose Notes contain text string " BA " and BirthDate is between "1968-01-01" and "1968-12-31". List LastName, FirstName, BirthDate, and Notes of such employee(s).
+ 
+SELECT *
+FROM Employees 
+WHERE Notes LIKE "% BA %" 
+AND BirthDate  BETWEEN "1968-01-01" AND "1968-12-31"
+
+--Find customers whose City is "London", or Whose Country is "USA". List CustomerName, City, and Country of such customers. Sort the result first by the ascending order of Country, then by descending order of City, and finally by descending order of CustmerName.
+
+SELECT CustomerName, City, Country
+FROM Customers 
+WHERE City IS "London" OR Country IS "USA" 
+ORDER BY Country ASC, CustomerName DESC
+
+--List the counting number of suppliers for which the SupplierName starts with letter "P". Rename the column name of your result as CountingNumber. 
+
+SELECT COUNT(*) AS CountingNumber
+FROM Suppliers 
+WHERE SupplierName LIKE "P%"
+
+--Find product id for the products that have been ordered more than 300 units in total. List product id of such products together with the total ordered quantity of each product. Sort your result according to the ascending order of the second column. 
+
+SELECT ProductID, Sum(Quantity)
+FROM OrderDetails
+GROUP BY ProductID
+HAVING Sum(Quantity) > 300
+ORDER BY 2
+
+--Consider only the orders handled by employees with IDs 3, 5, or 7. Among those orders, find customers who have placed more than 2 orders. In the result, list the CustomerID of such customers together with the OrderDate of their latest order. (Hint: you should use the Max() function to find the latest OrderDate.)
+
+SELECT CustomerID, Max(OrderDate)
+FROM Orders
+WHERE EmployeeID IN (3, 5, 7)
+GROUP BY CustomerID
+HAVING Count(CustomerID) > 2
