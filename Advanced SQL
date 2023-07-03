@@ -1,0 +1,50 @@
+Use the SQLite database Week12.db to create SQL command for each of the question. Paste your SQL codes below each question, and send this file to fisher.wu@gmail.com by the midnight of the due date. 
+
+--Create a table ORDERS2 that contains all the values of all the attributes from ORDERS table with ORDER_DATE '2007-10-20'.
+
+CREATE TABLE ORDERS2 AS
+SELECT *
+FROM ORDERS
+WHERE ORDER_DATE = '2007-10-20'
+
+
+--Insert the orders whose ORDER_DATE is 2007-10-23 from ORDERS table to ORDERS2 table.
+
+INSERT INTO ORDERS2
+SELECT *
+FROM ORDERS
+WHERE ORDER_DATE = '2007-10-23'
+
+
+--For the order with ORDER_NUM 21608 in ORDERS2 table, update the value of ORDER_DATE to '2007-11-23'.
+
+UPDATE ORDERS2
+SET ORDER_DATE = '2007-11-23'
+WHERE ORDER_NUM = 21608
+
+
+--Delete the orders whose CUSTOMER_NUM is 148 from ORDERS2 table.
+
+DELETE FROM ORDERS2
+WHERE CUSTOMER_NUM = 148
+
+
+--Add a column QUANTITY to ORDERS2 table with data type Integer.
+
+ALTER TABLE ORDERS2
+ADD QUANTITY INTEGER;
+
+
+--For each representative, list the REP_NUM together with a NAME_INITIAL column that combines the initial of FIRST_NAME and the initial of LASTNAME.
+
+SELECT REP_NUM, SUBSTR(FIRST_NAME,1,1) || SUBSTR(LAST_NAME,1,1) AS NAME_INITIAL
+FROM REP
+
+
+
+--List the PART_NUM and DESCRIPTION of each product, together with the CUSTOMER_NAME of the customers who purchased the product. In case a product has not been purchased by any customer, show 'None' as value for the last column.
+
+SELECT T1.PART_NUM, T1.DESCRIPTION, IFNULL(T3.CUSTOMER_NAME, 'None')
+FROM PART T1 LEFT JOIN ORDERS T2 ON T1.PART_NUM = T2.PART_NUM
+LEFT JOIN CUSTOMER T3 ON T2.CUSTOMER_NUM = T3.CUSTOMER_NUM
+
