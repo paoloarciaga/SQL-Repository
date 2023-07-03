@@ -1,0 +1,85 @@
+--List the contact name of customer whose CustomerID is 20.
+
+SELECT customername 
+FROM customers
+WHERE customerid = 20;
+
+ 
+
+--List the CustomerID and CustomerName for every Customer whose CustomerName contains "the".
+
+SELECT customerid, customername  
+FROM customers
+WHERE customername LIKE "%the%";
+        
+ 
+
+--List the ProductName and Price of every product that belongs to CategoryId 2 and that has a Price higher than 30.
+
+SELECT productname, price 
+FROM products 
+WHERE categoryid = 2 AND price > 30;
+
+ 
+
+--List the CustomerID, ContactName, Address, and City of every customer whose Country is France. Order the result in ascending order of ContactName.
+
+SELECT customerid, contactname, address, city
+FROM customers
+WHERE country = "France"
+ORDER BY contactname;
+
+ 
+
+--Generate the same list as Q4. Order the output in descending order by City first. When outputs have the same City, order them by ascending order of CustomerID.
+
+SELECT customerid, contactname, address, city
+FROM customers 
+WHERE country = “France”
+ORDER BY city DESC, customerid ASC;
+
+ 
+
+--List CustomerName, ContactName, City and Country for customers whose Countries are not Germany, UK, or France. Sort the result according to the descending order of Country
+
+SELECT customername, contactname, city, country 
+FROM customers
+WHERE country NOT IN ("Germany", "UK", "France")
+ORDER BY country DESC;
+
+
+
+--Show the Distinct SupplierID with ascending order for the Products whose Price are  between 20 and 40.
+
+SELECT DISTINCT supplierid
+FROM products 
+WHERE price BETWEEN 20 and 40
+ORDER BY supplierid ASC;
+
+
+
+--List the counting number of products with SupplierID 3
+
+SELECT COUNT(supplierid)
+FROM products 
+WHERE supplierid = 3;
+
+ 
+
+--List all the SupplierID in Products table together with the counting number of the products within each SupplierID.
+
+SELECT supplierid, COUNT(*) AS 'count'
+FROM products
+GROUP BY supplierid;
+
+ 
+
+--List all the SupplierID in Products table together with the counting number of the products within each SupplierID. Filter your result to show the ones with counting number equals to two.
+
+SELECT supplierid, COUNT(*) AS 'count'
+FROM products
+GROUP BY supplierid
+HAVING COUNT (*)=2;
+
+Answer: 
+ 
