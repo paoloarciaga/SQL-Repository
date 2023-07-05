@@ -1,11 +1,11 @@
-List the ProductName of each product, together with the SupplierName of its supplier, and CategoryName of its category.
+--List the ProductName of each product, together with the SupplierName of its supplier, and CategoryName of its category.
 
 SELECT T1.ProductName, T2.SupplierName, T3.CategoryName
 FROM Products T1
 JOIN Suppliers T2 ON T2.SupplierID = T1.SupplierID
 JOIN Categories T3 ON T3.CategoryID = T1.CategoryID
 
-List the SupplierName of each supplier, together with the OrderID of orders that contain products from that supplier. Sort the result according to the descending order of OrderID.
+--List the SupplierName of each supplier, together with the OrderID of orders that contain products from that supplier. Sort the result according to the descending order of OrderID.
 
 SELECT T3.SupplierName, T1.OrderID
 FROM OrderDetails T1
@@ -15,7 +15,7 @@ ORDER BY 2 DESC
 
 
 
-List the CustomerName and City of customers who purchased the products that belong to the "Seafood" category. Also show the ProductName of the purchased products in the result.
+--List the CustomerName and City of customers who purchased the products that belong to the "Seafood" category. Also show the ProductName of the purchased products in the result.
 
 SELECT T1.CustomerName, T1.City, T4.ProductName
 FROM Customers T1
@@ -26,7 +26,7 @@ JOIN Categories T5 ON T5.CategoryID = T4.CategoryID
 WHERE CategoryName = "Seafood"
 
 
-Find the customers who purchased the products which are supplied by the suppliers from the same country as customers' country. List the CustomerName, Country, and SupplierName in the result. 
+--Find the customers who purchased the products which are supplied by the suppliers from the same country as customers' country. List the CustomerName, Country, and SupplierName in the result. 
 
 SELECT T1.CustomerName, T1.Country, T5.SupplierName
 FROM Customers T1
@@ -37,7 +37,7 @@ JOIN Suppliers T5 ON T5.SupplierID = T4.SupplierID
 WHERE T5.Country = T1.Country
 
 
-Show the CategoryName of each category, together with the minimum price of products within that category. Filter the result to only show the ones for which the minimum price is no more than 30.
+--Show the CategoryName of each category, together with the minimum price of products within that category. Filter the result to only show the ones for which the minimum price is no more than 30.
 
 SELECT T1.CategoryName, MIN(T2.Price)
 FROM Categories T1
@@ -46,7 +46,7 @@ GROUP BY T2.CategoryID
 HAVING MIN(T2.Price) < 30
 
 
-List the CustomerName of each customer, together with the counting number of orders placed by that customer. Name the second column of the result as NUM_OF_ORDER. Include the customers who have not placed any order yet, and display 0 as the value of NUM_OF_ORDER for these customers. Sort the result according to ascending order of CustomerName.
+--List the CustomerName of each customer, together with the counting number of orders placed by that customer. Name the second column of the result as NUM_OF_ORDER. Include the customers who have not placed any order yet, and display 0 as the value of NUM_OF_ORDER for these customers. Sort the result according to ascending order of CustomerName.
 
 SELECT T1.CustomerName, COUNT(T2.OrderID) AS NUM_OF_ORDER
 FROM Customers T1
@@ -55,7 +55,7 @@ GROUP BY T2.CustomerID
 ORDER BY 1
 
 
-List the OrderID of each order together with a TOTALVALUE column, in which it shows the total value within that order. (Hint, for example, order 10248 contains three products: 11, 42, and 72. The quantity of each product is 12, 10, and 5 respectively. The price of each product is 21, 14, and 34.8. So, the TOTALVALUE of this order equals to 12*21 + 10*14 + 5*34.8 = 566. Show such a value for each order.) 
+--List the OrderID of each order together with a TOTALVALUE column, in which it shows the total value within that order. (Hint, for example, order 10248 contains three products: 11, 42, and 72. The quantity of each product is 12, 10, and 5 respectively. The price of each product is 21, 14, and 34.8. So, the TOTALVALUE of this order equals to 12*21 + 10*14 + 5*34.8 = 566. Show such a value for each order.) 
 
 SELECT T1.OrderID, SUM(T2.Price*T1.Quantity) AS TOTALVALUE 
 FROM OrderDetails T1
@@ -64,21 +64,21 @@ GROUP BY T1.OrderID
  
 
 
-List the CategoryID of each category, together with the difference between the average price of products within that category, and the average price of all products. Name the second column of the result as AVG_P_DIFF.
+--List the CategoryID of each category, together with the difference between the average price of products within that category, and the average price of all products. Name the second column of the result as AVG_P_DIFF.
 
 SELECT CategoryID, AVG(Price) - (SELECT AVG(Price) FROM Products) AS AVG_P_DIFF
 FROM Products
 GROUP BY CategoryID
 
 
-List the CustomerName of all customers who have not placed any order after "1996-12-31".
+--List the CustomerName of all customers who have not placed any order after "1996-12-31".
 
 SELECT CustomerName
 FROM Customers
 WHERE CustomerID NOT IN (SELECT CustomerID FROM Orders WHERE OrderDate > 1996-12-31)
 
 
-List the ProductName and Price of each product with SupplierID 4, together with the minimum price and the maximum price of all the products, and the minimum price and the maximum price of the products with the same CategoryID. Rename the last four columns as ALL_MAX, ALL_MIN, CATE_MAX, and CATE_MIN respectively.   
+--List the ProductName and Price of each product with SupplierID 4, together with the minimum price and the maximum price of all the products, and the minimum price and the maximum price of the products with the same CategoryID. Rename the last four columns as ALL_MAX, ALL_MIN, CATE_MAX, and CATE_MIN respectively.   
 
 SELECT ProductName, Price, (SELECT MAX(Price) FROM Products) AS ALL_MAX, (SELECT MIN(Price) FROM Products) AS ALL_MIN, (SELECT MAX(Price) FROM Products WHERE SupplierID = 4) AS CATE_MAX, (SELECT MIN(Price) FROM PRODUCTS WHERE SupplierID = 4) AS CATE_MIN
 FROM Products
