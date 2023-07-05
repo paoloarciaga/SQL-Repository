@@ -81,5 +81,4 @@ FROM products
 GROUP BY supplierid
 HAVING COUNT (*)=2;
 
-Answer: 
  
