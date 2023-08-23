@@ -1,0 +1,16 @@
+- Create a Table 
+
+create table house_addresses (
+	  street varchar(255)
+	, city varchar(255)
+	, state_abv2 varchar(2) 
+	, zip_code int
+	, house_built_date date
+)
+
+
+- Alter the table by adding a new column 
+
+alter table house_addresses add
+   side_of_street_nsew char(5)
+;
